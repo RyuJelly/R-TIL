@@ -10,11 +10,17 @@ repeat{
   comicGrade <- html_text(html_nodes(text, "td > div.challengeInfo > div.rating_type > strong"))
 
   page <- data.frame(comicName, comicSummary, comicGrade)
-  if(data.duplicated['page','naver_comic']){
-    break;
-  }
   naver_comic <- rbind(naver_comic, page)
+  
+  c <- ((i-1) * 24) + 1; # 마지막 페이지를 제외한 모든 페이지의 만화 24개
+  
+  if(duplicated(naver_comic)[c]){
+    naver_comic <- unique(naver_comic)
+    break
+  }
+  
   i <- i + 1;
+  
 }
 
 write.csv(naver_comic, "navercomic.csv")
