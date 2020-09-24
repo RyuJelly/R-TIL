@@ -6,7 +6,8 @@ library(RJDBC)
 library(DBI)
 
 # 드라이버 로딩과 데이터베이스 연동
-drv <- JDBC(driverClass = 'org.mariadb.jdbc.Driver', 'mariadb-java-client-2.6.2.jar')
+drv <- JDBC(driverClass = 'org.mariadb.jdbc.Driver',
+            'mariadb-java-client-2.6.2.jar')
 #JDBC URL
 #                                    //localhost:(port번호)/(db명)
 conn <- dbConnect(drv, 'jdbc:mariadb://127.0.0.1:3306/work', 'scott', 'tiger')
