@@ -3,7 +3,9 @@ conn <- dbConnect(drv, 'jdbc:mariadb://127.0.0.1:3306/work', 'scott', 'tiger')
 library(dplyr)
 emp <- dbReadTable(conn, "emp")
 # 문제0
-if(emp$comm <0)
+query <- "update emp set comm = NULL where comm < 0"
+dbSendQuery(conn, query)
+emp <- dbReadTable(conn, "emp")
 
 # 문제1
 emp %>% filter(job == "MANAGER")
