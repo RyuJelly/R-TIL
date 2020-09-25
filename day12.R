@@ -270,38 +270,3 @@ exam %>%
             median_math = median(math), # math 중앙값
             n = n())                    # 학생 수
 
-??mpg
-str(mpg)
-# 각 집단별로 다시 집단 나누기
-mpg %>%
-  group_by(manufacturer, drv) %>%      # 회사별, 구방방식별 분리
-  summarise(mean_cty = mean(cty)) %>%  # cty 평균 산출
-  head(10)                             # 일부 출력
-
-#[ 문제 ] 
-#회사별로 "suv" 자동차의 도시 및 고속도로 통합 연비 평균을 구해 내림차순으로 정렬하고, 1~5위까지 출력하기
-#절차	기능	dplyr 함수
-#1	회사별로 분리	group_by()
-#2	suv 추출	filter()
-#3	통합 연비 변수 생성	mutate()
-#4	통합 연비 평균 산출	summarise()
-#5	내림차순 정렬	arrange()
-#6	1~5위까지 출력	head()
-library(ggplot2)
-mpg <- as.data.frame(mpg)
-str(mpg)
-mpg %>%
-  group_by(manufacturer) %>%           # 회사별로 분리
-  filter(class == "suv") %>%           # suv 추출
-  mutate(tot = (cty+hwy)/2) %>%        # 통합 연비 변수 생성
-  summarise(mean_tot = mean(tot)) %>%  # 통합 연비 평균 산출
-  arrange(desc(mean_tot)) %>%          # 내림차순 정렬
-  head(5)                              # 1~5위까지 출력
-
-mpg %>%
-  filter(class == "suv") %>%           
-  mutate(tot = (cty+hwy)/2) %>% 
-  group_by(manufacturer) %>%           
-  summarise(mean_tot = mean(tot)) %>%  
-  arrange(desc(mean_tot)) %>%          # 내림차순 정렬
-  head(5) 

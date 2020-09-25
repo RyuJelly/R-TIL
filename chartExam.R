@@ -1,3 +1,6 @@
+library(rJava)
+library(RJDBC)
+library(DBI)
 drv <- JDBC(driverClass = 'org.mariadb.jdbc.Driver',
             'mariadb-java-client-2.6.2.jar')
 conn <- dbConnect(drv, "jdbc:mysql://localhost:3306/work", "scott", "tiger")

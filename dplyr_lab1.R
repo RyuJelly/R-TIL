@@ -1,11 +1,20 @@
+library(rJava)
+library(RJDBC)
+library(DBI)
+library(dplyr)
 drv <- JDBC(driverClass = 'org.mariadb.jdbc.Driver', 'mariadb-java-client-2.6.2.jar')
 conn <- dbConnect(drv, 'jdbc:mariadb://127.0.0.1:3306/work', 'scott', 'tiger')
-library(dplyr)
 emp <- dbReadTable(conn, "emp")
 # 문제0
 query <- "update emp set comm = NULL where comm < 0"
 dbSendQuery(conn, query)
 emp <- dbReadTable(conn, "emp")
+
+emp %>%
+  mutate(comm = ifelse(comm <0, NA, comm)) -> emp
+
+emp %>%
+  mutate(mgr = ifelse(mgr <0, NA, mgr)) -> emp
 
 # 문제1
 emp %>% filter(job == "MANAGER")
@@ -39,6 +48,10 @@ emp %>%
   filter(job == "SALESMAN"| job == "ANALYST") %>%
   select(ename, job)
 
+emp %>%
+  filter(job %in% c("SALESMAN", "ANALYST")) %>%
+  select(ename, job)
+
 # 문제9
 emp %>% 
   group_by(deptno) %>%
@@ -70,5 +83,5 @@ emp %>%
   
 # 문제15
 emp %>%
-  filter(comm > 0) %>%
+  filter(!is.na(comm)) %>%
   count()
