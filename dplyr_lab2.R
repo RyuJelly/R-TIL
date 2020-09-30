@@ -17,8 +17,10 @@ head(mpg, 10)
 tail(mpg, 10)
 
 # 1-5
+View(mpg)
 
 # 1-6
+summary(mpg) #열단위 요약
 
 # 1-7
 mpg %>% 
@@ -52,7 +54,7 @@ midwest %>%
 
 # 3-3
 midwest %>%
-  mutate(a_ratio = (asian / total)) -> midwest
+  mutate(a_ratio = (asian / total) * 100) -> midwest
 
 # 3-4
 midwest %>%
@@ -72,9 +74,13 @@ mpg %>%
 mpg %>%
   filter(manufacturer == "audi") %>%
   summarise(mean(cty))
-
 mpg %>%
   filter(manufacturer == "toyota") %>%
+  summarise(mean(cty))
+
+mpg %>% 
+  filter(manufacturer %in% c("audi", "toyota")) %>% 
+  group_by(manufacturer) %>% 
   summarise(mean(cty))
 
 # 4-3
@@ -93,9 +99,13 @@ head(mpg3)
 mpg3 %>%
   filter(class == "suv") %>%
   summarise(mean(cty))
-
 mpg3 %>%
   filter(class == "compact") %>%
+  summarise(mean(cty))
+
+mpg3 %>% 
+  filter(class %in% c("suv", "compact")) %>% 
+  group_by(class) %>% 
   summarise(mean(cty))
 
 ###### 문제6
